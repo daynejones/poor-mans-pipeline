@@ -11,14 +11,21 @@ const url = require('url');
 const uuid = require('uuid');
 
 /**
+ * Customize these according to your needs
+ */
+const DATASET = 'parsed_pixel';
+const TABLE_NAME = 'pixel';
+const VALID_ATTRIBUTES = ['order_id', 'type', 'user_id'];
+
+/**
  * Helper method to get a handle on a BigQuery table. Automatically creates the
  * dataset and table if necessary.
  */
 function getTable () {
-  const dataset = bigquery.dataset('parsed_pixel');
+  const dataset = bigquery.dataset(DATASET);
 
   return dataset.get({ autoCreate: true })
-    .then(([dataset]) => dataset.table('pixel').get({ autoCreate: true }));
+    .then(([dataset]) => dataset.table(TABLE_NAME).get({ autoCreate: true }));
 }
 
 /**
@@ -31,7 +38,6 @@ exports.parse = function parse(event) {
   const pubsubMessage = event.data;
   const requestData = JSON.parse(Buffer.from(pubsubMessage.data, 'base64').toString());
   const requestUrl = requestData.httpRequest.requestUrl;
-  const VALID_ATTRIBUTES = ['order_id', 'type', 'user_id'];
   const url_parts = url.parse(requestUrl, true);
   const query = url_parts.query;
   const user_id = query.user_id;
