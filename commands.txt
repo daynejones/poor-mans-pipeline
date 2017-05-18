@@ -1,0 +1,8 @@
+### Deploy function
+gcloud beta functions deploy parse --stage-bucket pixel-functions-staging --trigger-topic pixel
+
+### Publish message to pub/sub
+gcloud beta pubsub topics publish projects/serverless-pixel/topics/pixel '{"name":"helloPubSub"}'
+
+### Read Logs
+gcloud beta functions logs read --limit 50
