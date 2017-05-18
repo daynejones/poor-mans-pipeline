@@ -92,4 +92,5 @@ GCP gives you an insight into each piece of this pipeline but the information is
 
 Use the logging panel to see raw logs from the Load Balancer, BigQuery, and the Cloud Function. You can also tail your cloud function logs manually from the command line using the command supplied in `commands.txt`.
 
-
+## License
+This project is released under the [MIT License](https://opensource.org/licenses/MIT)
