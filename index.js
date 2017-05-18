@@ -15,7 +15,7 @@ const uuid = require('uuid');
  * dataset and table if necessary.
  */
 function getTable () {
-  const dataset = bigquery.dataset('parsedPixel');
+  const dataset = bigquery.dataset('parsed_pixel');
 
   return dataset.get({ autoCreate: true })
     .then(([dataset]) => dataset.table('pixel').get({ autoCreate: true }));
