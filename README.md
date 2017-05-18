@@ -1,4 +1,4 @@
-# Poor Man's Data Pipeline
+# The Poor Man's Data Pipeline
 
 ## Motivation
 Tasked with writing a proof of concept data pipeline, I was overwhelmed with the options on the market. This simple data pipeline sits on Google Cloud Platform, captures events using a simple tracking pixel, processes, and stores the data in near real time, and requires no ops. It was partially inspired by [this project](https://cloud.google.com/solutions/serverless-pixel-tracking-tutorial) on Google's own site.
@@ -64,7 +64,7 @@ The next thing you need is to export logs that come from your load balancer and 
 4. Click "Create Export" at the top of the page.
 5. Choose Cloud Pub/Sub as the Sink Service and the topic you recently created.
 
-### Big Query
+### BigQuery
 To prepare for the next step, we need to create a BigQuery Table. This table will be used as a "template" for future tables that will be dynamically created.
 
 1. In the GCP menu, open the BigQuery console.
@@ -91,6 +91,23 @@ At this point, you should have a working pipeline. Using the IP address of the l
 GCP gives you an insight into each piece of this pipeline but the information is a bit scattered. There seems to be a basic "StackDriver" logging panel to give you some insight into your services, if you want more detail, you have to use the full StackDriver product or use the API to gather metrics.
 
 Use the logging panel to see raw logs from the Load Balancer, BigQuery, and the Cloud Function. You can also tail your cloud function logs manually from the command line using the command supplied in `commands.txt`.
+
+## Flexibility
+Possible next systems to layer in:
+
+1. A more sophisticated processing layer. GCP Dataflow would integrate nicely. 
+2. Storage of full logs. Generally, storing raw data is preferable. It would be fairly easy to batch up raw logs and store them in cloud storage so you can easily have raw backups of the data.
+3. Machine learning. Google's cloud tools for machine learning are best in class, so you will have an easy time integrating those into the flow.
+
+## Weaknesses of this approach
+1. The nature of this setup necessitates streaming each log event through the entire stack. This can lead to higher costs. For example, loading data to BigQuery is free but streaming inserts costs $0.05 per GB.
+2. Consistency. Streaming data into BigQuery is consistent, but not 100% so. Wording taken from BigQuery's documentation: 
+
+	> The app can tolerate a rare possibility that duplication might occur or that data might be temporarily unavailable.
+3. Cost at volume. I can't speak to the pricing authoritatively but I assume the pricing does not work out in your favor if you will be pumping billions of events per month. If that's the case, you likely have the engineering staff to use self hosted solutions. If not, this is still a good solution, but will likely be pricey.
+
+## Feedback
+Please send any and all feedback by way of email (jones.dayne@gmail.com), a Github issue, or ideally, a pull request ;)
 
 ## License
 This project is released under the [MIT License](https://opensource.org/licenses/MIT)
