@@ -20,6 +20,19 @@
 	BigQuery stores all event data. The data is partitioned both by user id and date. When a query is performed against BigQuery, costs will remain low because each of these datasets is much smaller and quicker to query.
 
 ## Setup Instructions
+### Prerequisites:
+1. A working Google Cloud Platform account that can enable services. You are responsible for whatever charges you incur.
+
+### Instructions:
+#### Google cloud storage
+1. In Google Cloud Storage, create a new bucket and remember the name.
+2. Click "edit bucket permissions" and create new read permissions for a user called "allUsers". It will look like this: ![](http://imgur.com/f62uAUF.jpg)
+2. Upload the pixel.png from this repository to your new bucket.
+3. Click the checkbox under "share publicly" so your image can be served publicly.
+![](http://imgur.com/EcKLZjy.jpg)
+
+#### Load Balancer
+
 
 ## Usage
 Just fire a request to the URL as configured in the load balancer, something like: http://track.domain.com/pixel.png using query string parameters that you've setup.
